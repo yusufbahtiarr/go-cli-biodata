@@ -31,7 +31,7 @@ func GetAllProfile(db *sqlx.DB, scanner *bufio.Scanner) {
 	utils.GoBack(scanner)
 }
 
-func AddProfile(db *sqlx.DB, scanner *bufio.Scanner) {
+func AddProfile(db *sqlx.DB, scanner *bufio.Scanner, id_user int) {
 	utils.Clear()
 	fmt.Println("TAMBAH BIODATA")
 	fmt.Println("-------------------")
@@ -39,12 +39,11 @@ func AddProfile(db *sqlx.DB, scanner *bufio.Scanner) {
 	age := utils.InputInt(scanner, "Masukkan Umur: ")
 	gender := utils.InputGender(scanner, "Masukkan Jenis kelamin (pria/wanita): ")
 
-	insert := `INSERT INTO profiles (name, age, gender) VALUES ($1, $2, $3)`
-	_, err := db.Exec(insert, name, age, gender)
+	insert := `INSERT INTO profiles (name, age, gender, id_user) VALUES ($1, $2, $3, $4)`
+	_, err := db.Exec(insert, name, age, gender, id_user)
 	if err != nil {
 		fmt.Printf("gagal menyimpan biodata: %v", err)
 	}
-
 	DisplayAddProfile(name, age, gender)
 	utils.GoBack(scanner)
 }

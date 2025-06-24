@@ -11,28 +11,57 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
+var mode int = 1
+var id_user int
+
 func Profile(db *sqlx.DB) {
 	scanner := bufio.NewScanner(os.Stdin)
 	for {
 		utils.Clear()
 		fmt.Println("BIODATA")
 		fmt.Println("-------------------")
-		fmt.Println("1. Data Biodata")
-		fmt.Println("2. Tambah Biodata")
-		fmt.Printf("0. Keluar\n\n")
-		a := utils.InputString(scanner, "Pilih Menu : ")
-		switch a {
-		case "1":
-			services.GetAllProfile(db, scanner)
-		case "2":
-			services.AddProfile(db, scanner)
-		case "0":
-			os.Exit(0)
+		switch mode {
+		case 1:
+			MenuMode(db, scanner, &mode, &id_user)
+		case 2:
+			MenuMode(db, scanner, &mode, &id_user)
 		default:
-			fmt.Println("Input tidak valid.")
+			fmt.Println("Mode tidak valid.")
 			time.Sleep(time.Second)
-			continue
 		}
 	}
+}
 
+func MenuMode(db *sqlx.DB, scanner *bufio.Scanner, mode *int, id_user *int) {
+	if *mode == 1 {
+		fmt.Println("1. Register")
+		fmt.Println("2. Login")
+	} else {
+		fmt.Println("1. Data Biodata")
+		fmt.Println("2. Tambah Biodata")
+	}
+	fmt.Println("0. Keluar")
+	fmt.Println("")
+	choice := utils.InputString(scanner, "Pilih Menu : ")
+	switch choice {
+	case "1":
+		if *mode == 1 {
+			services.AddUser(db, scanner)
+		} else {
+			services.GetAllProfile(db, scanner)
+		}
+	case "2":
+		if *mode == 1 {
+			services.LoginUser(db, scanner, mode, id_user)
+		} else {
+			services.AddProfile(db, scanner, *id_user)
+		}
+	case "0":
+		fmt.Printf("\nProgram diakhiri..\n")
+		time.Sleep(time.Second)
+		os.Exit(0)
+	default:
+		fmt.Println("Input tidak valid.")
+		time.Sleep(time.Second)
+	}
 }

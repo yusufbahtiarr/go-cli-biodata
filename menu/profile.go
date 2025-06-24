@@ -6,6 +6,7 @@ import (
 	"go-cli-biodata/services"
 	"go-cli-biodata/utils"
 	"os"
+	"time"
 
 	"github.com/jmoiron/sqlx"
 )
@@ -29,7 +30,8 @@ func Profile(db *sqlx.DB) {
 			os.Exit(0)
 		default:
 			fmt.Println("Input tidak valid.")
-			return
+			time.Sleep(time.Second)
+			continue
 		}
 	}
 

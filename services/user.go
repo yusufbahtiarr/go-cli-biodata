@@ -1,7 +1,6 @@
 package services
 
 import (
-	"bufio"
 	"fmt"
 	"go-cli-biodata/utils"
 	"time"
@@ -9,12 +8,12 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-func AddUser(db *sqlx.DB, scanner *bufio.Scanner) {
+func AddUser(db *sqlx.DB) {
 	utils.Clear()
 	fmt.Println("REGISTRASI USER")
 	fmt.Println("-------------------")
-	username := utils.InputString(scanner, "Masukkan Username: ")
-	password := utils.InputString(scanner, "Masukkan Password: ")
+	username := utils.InputString("Masukkan Username: ")
+	password := utils.InputString("Masukkan Password: ")
 
 	insert := `INSERT INTO users (username, password) VALUES ($1, $2)`
 	_, err := db.Exec(insert, username, password)
@@ -22,17 +21,17 @@ func AddUser(db *sqlx.DB, scanner *bufio.Scanner) {
 		fmt.Printf("gagal menyimpan user: %v", err)
 	}
 
-	fmt.Print("Registrasi berhasil!")
+	fmt.Printf("\nRegistrasi berhasil!\n")
 
-	utils.GoBack(scanner)
+	utils.GoBack()
 }
 
-func LoginUser(db *sqlx.DB, scanner *bufio.Scanner, mode *int, id_user *int) {
+func LoginUser(db *sqlx.DB, mode *int, id_user *int) {
 	utils.Clear()
 	fmt.Println("LOGIN USER")
 	fmt.Println("-------------------")
-	username := utils.InputString(scanner, "Masukkan Username: ")
-	password := utils.InputString(scanner, "Masukkan Password: ")
+	username := utils.InputString("Masukkan Username: ")
+	password := utils.InputString("Masukkan Password: ")
 
 	var storedPassword string
 	var user_id int
@@ -44,7 +43,7 @@ func LoginUser(db *sqlx.DB, scanner *bufio.Scanner, mode *int, id_user *int) {
 		} else {
 			fmt.Printf("Gagal memeriksa user: %v\n", err)
 		}
-		utils.GoBack(scanner)
+		utils.GoBack()
 		return
 	}
 
@@ -57,5 +56,5 @@ func LoginUser(db *sqlx.DB, scanner *bufio.Scanner, mode *int, id_user *int) {
 		fmt.Println("Password salah!")
 	}
 
-	utils.GoBack(scanner)
+	utils.GoBack()
 }

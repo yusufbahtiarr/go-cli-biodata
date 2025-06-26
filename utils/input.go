@@ -3,11 +3,13 @@ package utils
 import (
 	"bufio"
 	"fmt"
+	"os"
 	"strconv"
 	"strings"
 )
 
-func InputString(scanner *bufio.Scanner, label string) string {
+func InputString(label string) string {
+	scanner := bufio.NewScanner(os.Stdin)
 	for {
 		fmt.Print(label)
 		scanner.Scan()
@@ -21,7 +23,8 @@ func InputString(scanner *bufio.Scanner, label string) string {
 	}
 }
 
-func InputInt(scanner *bufio.Scanner, label string) int {
+func InputInt(label string) int {
+	scanner := bufio.NewScanner(os.Stdin)
 	for {
 		fmt.Print(label)
 		scanner.Scan()
@@ -36,7 +39,8 @@ func InputInt(scanner *bufio.Scanner, label string) int {
 	}
 }
 
-func InputGender(scanner *bufio.Scanner, label string) string {
+func InputGender(label string) string {
+	scanner := bufio.NewScanner(os.Stdin)
 	for {
 		fmt.Print(label)
 		scanner.Scan()
@@ -50,7 +54,8 @@ func InputGender(scanner *bufio.Scanner, label string) string {
 	}
 }
 
-func GoBack(scanner *bufio.Scanner) {
+func GoBack() {
+	scanner := bufio.NewScanner(os.Stdin)
 	fmt.Print("\nTekan Enter untuk kembali... ")
 	scanner.Scan()
 }

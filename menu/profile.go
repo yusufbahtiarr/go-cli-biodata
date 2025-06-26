@@ -42,19 +42,19 @@ func MenuMode(db *sqlx.DB, scanner *bufio.Scanner, mode *int, id_user *int) {
 	}
 	fmt.Println("0. Keluar")
 	fmt.Println("")
-	choice := utils.InputString(scanner, "Pilih Menu : ")
+	choice := utils.InputString("Pilih Menu : ")
 	switch choice {
 	case "1":
 		if *mode == 1 {
-			services.AddUser(db, scanner)
+			services.AddUser(db)
 		} else {
-			services.GetAllProfile(db, scanner)
+			services.GetAllProfile(db)
 		}
 	case "2":
 		if *mode == 1 {
-			services.LoginUser(db, scanner, mode, id_user)
+			services.LoginUser(db, mode, id_user)
 		} else {
-			services.AddProfile(db, scanner, *id_user)
+			services.AddProfile(db, *id_user)
 		}
 	case "0":
 		fmt.Printf("\nProgram diakhiri..\n")

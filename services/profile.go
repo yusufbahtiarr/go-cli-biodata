@@ -1,7 +1,6 @@
 package services
 
 import (
-	"bufio"
 	"fmt"
 	"go-cli-biodata/models"
 	"go-cli-biodata/utils"
@@ -9,7 +8,7 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-func GetAllProfile(db *sqlx.DB, scanner *bufio.Scanner) {
+func GetAllProfile(db *sqlx.DB) {
 	utils.Clear()
 	rows, err := db.Queryx("SELECT id, name, age, gender, created_at from profiles")
 	if err != nil {
@@ -28,16 +27,16 @@ func GetAllProfile(db *sqlx.DB, scanner *bufio.Scanner) {
 		}
 		fmt.Printf("%d - %s - %d - %s\n", p.Id, p.Name, p.Age, p.Gender)
 	}
-	utils.GoBack(scanner)
+	utils.GoBack()
 }
 
-func AddProfile(db *sqlx.DB, scanner *bufio.Scanner, id_user int) {
+func AddProfile(db *sqlx.DB, id_user int) {
 	utils.Clear()
 	fmt.Println("TAMBAH BIODATA")
 	fmt.Println("-------------------")
-	name := utils.InputString(scanner, "Masukkan Nama: ")
-	age := utils.InputInt(scanner, "Masukkan Umur: ")
-	gender := utils.InputGender(scanner, "Masukkan Jenis kelamin (pria/wanita): ")
+	name := utils.InputString("Masukkan Nama: ")
+	age := utils.InputInt("Masukkan Umur: ")
+	gender := utils.InputGender("Masukkan Jenis kelamin (pria/wanita): ")
 
 	insert := `INSERT INTO profiles (name, age, gender, id_user) VALUES ($1, $2, $3, $4)`
 	_, err := db.Exec(insert, name, age, gender, id_user)
@@ -45,7 +44,7 @@ func AddProfile(db *sqlx.DB, scanner *bufio.Scanner, id_user int) {
 		fmt.Printf("gagal menyimpan biodata: %v", err)
 	}
 	DisplayAddProfile(name, age, gender)
-	utils.GoBack(scanner)
+	utils.GoBack()
 }
 
 func DisplayAddProfile(name string, age int, gender string) {
